@@ -1,0 +1,8 @@
+# Ignore environment variable files that may contain sensitive information such as database credentials, API keys, and other secrets. This is crucial for maintaining the security of the application and preventing accidental exposure of sensitive data in version control systems. 
+.env
+
+# System Files and Error Logs
+.DS_Store
+Thumbs.db
+error_log
+*.log
