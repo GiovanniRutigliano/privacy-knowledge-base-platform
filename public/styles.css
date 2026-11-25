@@ -1,88 +1,31 @@
-/* Systems styling parameter standards mapping UI parameters globally */
+:root { --ink: #19243b; --accent: #243d86; --paper: #fafbff; --line: #dce2f1; }
+body { color: var(--ink); background: var(--paper); font-family: system-ui, sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+.main-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .8rem; background: #182644; color: #fff; padding: 1rem max(calc((100vw - 1140px) / 2), 1rem); }
+.site-title { color: inherit; text-decoration: none; font-weight: 750; }
+.main-header ul { display: flex; list-style: none; gap: .35rem; flex-wrap: wrap; margin: 0; padding: 0; }
+.main-header .nav-link { color: #eff2ff; padding: .45rem .65rem; border-radius: .3rem; }
+.main-header .nav-link:hover, .main-header .nav-link.active { background: #344e86; color: white; }
+.main-footer { background: #182644; color: #fff; margin-top: auto; padding: 1.2rem 1rem; text-align: center; }
+.main-footer p { margin: 0; font-size: .85rem; }
+.max-w-sm { max-width: 400px; } .max-w-xl { max-width: 600px; } .max-w-2xl { max-width: 700px; }
+.max-w-4xl { max-width: 900px; } .max-w-5xl { max-width: 1100px; }
+.knowledge-intro { padding: clamp(1.5rem, 5vw, 4rem) 0; max-width: 59rem; }
+.knowledge-intro h1, .page-intro h1 { font-family: Georgia, serif; line-height: 1.05; letter-spacing: -.04em; }
+.knowledge-intro h1 { font-size: clamp(2.65rem, 7.4vw, 5.8rem); }
+.page-intro h1 { font-size: clamp(2.25rem, 5vw, 4.5rem); }
+.eyebrow { color: var(--accent); text-transform: uppercase; font-size: .85rem; letter-spacing: .13em; font-weight: 700; }
+.source-notes { padding: 1.25rem 0; border-top: 1px solid var(--line); max-width: 50rem; }
+.search-form { display: flex; flex-wrap: wrap; gap: .8rem; align-items: end; margin: 1rem 0 2rem; }
+.search-form > div { flex: 1 1 220px; max-width: 40rem; }
+.facet-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); align-items: end; gap: 1rem; margin: 1rem 0 2rem; }
+.facet-form label, .search-form label { font-weight: 650; margin-bottom: .3rem; }
+.facet-actions { display: flex; align-items: center; gap: 1rem; }
+.pattern-list { margin: 0 0 2rem; padding: 0; list-style: none; max-width: 60rem; }
+.pattern-list li { border-top: 1px solid var(--line); padding: 1rem 0; }
+.pattern-list h2 { font-size: 1.15rem; margin: 0 0 .3rem; }
+.pattern-list p, .result-status { color: #495774; margin-bottom: .5rem; }
+:where(a, button, input, select, textarea):focus-visible { outline: 3px solid #a33c00 !important; outline-offset: 3px; }
+.skip-link:focus { position: fixed; inset: .5rem auto auto .5rem; background: #fff; padding: .75rem; z-index: 1100; }
+@media (max-width: 575px) { .main-header .nav-link { padding-inline: .4rem; } .card.p-5 { padding: 1.1rem !important; } }
 
-:root {
-    --color-primary: #f82b0c;
-    --color-secondary: #5e48bf;
-    --color-bg: #f8f9fa;
-    --color-text: #333333;
-}
-
-body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--color-bg);
-    color: var(--color-text);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-/* Hardened header positioning metrics */
-.main-header {
-    background-color: var(--color-primary);
-    color: #ffffff;
-    padding: 1.25rem 0;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.main-header h1 {
-    margin: 0;
-    font-weight: 800;
-    font-size: 2.25rem;
-    letter-spacing: -0.5px;
-}
-
-.main-header nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 0.75rem 0 0 0;
-}
-
-.nav-link {
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.4rem 1rem;
-    border-radius: 50px;
-    transition: all 0.2s ease;
-    background-color: rgba(255, 255, 255, 0.15);
-}
-
-.nav-link:hover, .nav-link.active {
-    background-color: #ffffff;
-    color: var(--color-primary) !important;
-}
-
-/* Ensure absolute text table scaling limits */
-/* Note to self: Overriding Bootstrap table header background parameters strictly to maintain dark high-contrast typography mapping white canvas rows */
-.table th {
-    font-weight: 600;
-    background-color: #f1f3f5 !important;
-    color: var(--color-text) !important;
-}
-
-/* Structural width assignment baseline utility classes */
-.max-w-sm  { max-width: 400px; }
-.max-w-xl  { max-width: 600px; }
-.max-w-2xl { max-width: 700px; }
-.max-w-4xl { max-width: 900px; }
-.max-w-5xl { max-width: 1100px; }
-
-/* Sticky baseline element positioning bounds */
-.main-footer {
-    background-color: var(--color-secondary);
-    color: #ffffff;
-    text-align: center;
-    padding: 1rem 0;
-    margin-top: auto;
-}
-
-.main-footer p {
-    margin: 0;
-    font-size: 0.85rem;
-}
+main a:not(.btn) { color: #243d86; }

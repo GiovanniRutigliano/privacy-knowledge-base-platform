@@ -10,8 +10,7 @@ USE `privacyknowledgebase`;
 -- --------------------------------------------------------------------
 -- Users Table (System Administrators & Security Managers)
 -- --------------------------------------------------------------------
-DROP TABLE IF EXISTS `personal_informations`;
-CREATE TABLE `personal_informations` (
+CREATE TABLE IF NOT EXISTS `personal_informations` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `username` VARCHAR(50) NOT NULL UNIQUE,
     `role` ENUM('admin', 'security manager') NOT NULL,
@@ -20,18 +19,12 @@ CREATE TABLE `personal_informations` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Seed default operator accounts mapping baseline staff authorization constraints
--- Note to self: Retaining plaintext strings temporarily to support instant dev offline verification flows.
--- Must refactor to output verification buffers using password_hash() securely prior to production server deployment.
-INSERT INTO `personal_informations` (`username`, `role`, `password`) VALUES
-('admin', 'admin', 'adminpass123'),
-('security_manager', 'security manager', 'secpass123');
+-- Create staff accounts using the CLI provisioning command.
 
 -- --------------------------------------------------------------------
 -- Patterns Table (Core Privacy Knowledge Base Ruleset Mapping)
 -- --------------------------------------------------------------------
-DROP TABLE IF EXISTS `patterns`;
-CREATE TABLE `patterns` (
+CREATE TABLE IF NOT EXISTS `patterns` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(255) NOT NULL,
     `strategies` VARCHAR(255) DEFAULT NULL,
@@ -51,7 +44,7 @@ CREATE TABLE `patterns` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Injecting the absolute mapping of all 25 core design patterns matching extracted legacy specifications perfectly
-INSERT INTO `patterns` (
+INSERT IGNORE INTO `patterns` (
     `id`, `name`, `strategies`, `description`, `context`, `iso_phase`,
     `gdpr_article`, `privacy_principles`, `owasp_categories`, `cwe_categories`, `examples`, `collocazione_mvc`
 ) VALUES 
@@ -409,8 +402,7 @@ INSERT INTO `patterns` (
 -- --------------------------------------------------------------------
 -- Feedback Table (Security Monitoring Interface Mapping)
 -- --------------------------------------------------------------------
-DROP TABLE IF EXISTS `feedback`;
-CREATE TABLE `feedback` (
+CREATE TABLE IF NOT EXISTS `feedback` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `feedback_type` VARCHAR(100) NOT NULL,
     `feedback_content` TEXT NOT NULL,
@@ -418,6 +410,4 @@ CREATE TABLE `feedback` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Seed an internal setup verification check record directly accessible via Security Manager notifications desk
-INSERT INTO `feedback` (`feedback_type`, `feedback_content`) VALUES
-('System Verification Log', 'Initial database ruleset compilation complete. Application controllers map DDL structural integrity correctly.');
+ALTER TABLE feedback ADD COLUMN IF NOT EXISTS reviewed_at TIMESTAMP NULL DEFAULT NULL;

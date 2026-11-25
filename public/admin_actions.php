@@ -29,18 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif ($action === 'create' || $action === 'edit') {
             // Map parameters consistently across CRUD boundary states
             $params = [
-                ':n'   => trim($_POST['name'] ?? ''),
-                ':st'  => trim($_POST['strategies'] ?? ''),
-                ':d'   => trim($_POST['description'] ?? ''),
-                ':c'   => trim($_POST['context'] ?? ''),
-                ':iso' => trim($_POST['iso_phase'] ?? ''),
-                ':g'   => trim($_POST['gdpr_article'] ?? ''),
-                ':pp'  => trim($_POST['privacy_principles'] ?? ''),
-                ':ow'  => trim($_POST['owasp_categories'] ?? ''),
-                ':cwe' => trim($_POST['cwe_categories'] ?? ''),
-                ':ex'  => trim($_POST['examples'] ?? ''),
-                ':mvc' => trim($_POST['collocazione_mvc'] ?? ''),
+                ':n'   => trim(filter_input(INPUT_POST, 'name') ?? ''),
+                ':st'  => trim(filter_input(INPUT_POST, 'strategies') ?? ''),
+                ':d'   => trim(filter_input(INPUT_POST, 'description') ?? ''),
+                ':c'   => trim(filter_input(INPUT_POST, 'context') ?? ''),
+                ':iso' => trim(filter_input(INPUT_POST, 'iso_phase') ?? ''),
+                ':g'   => trim(filter_input(INPUT_POST, 'gdpr_article') ?? ''),
+                ':pp'  => trim(filter_input(INPUT_POST, 'privacy_principles') ?? ''),
+                ':ow'  => trim(filter_input(INPUT_POST, 'owasp_categories') ?? ''),
+                ':cwe' => trim(filter_input(INPUT_POST, 'cwe_categories') ?? ''),
+                ':ex'  => trim(filter_input(INPUT_POST, 'examples') ?? ''),
+                ':mvc' => trim(filter_input(INPUT_POST, 'collocazione_mvc') ?? ''),
             ];
+
+            if ($params[':n'] === '' || mb_strlen($params[':n']) > 255) {
+                header('Location: /admin.php?error=' . urlencode('Enter a name between 1 and 255 characters.'), true, 303);
+                exit;
+            }
 
             if ($action === 'create') {
                 $sql = "INSERT INTO patterns (name, strategies, description, context, iso_phase, gdpr_article, privacy_principles, owasp_categories, cwe_categories, examples, collocazione_mvc) 

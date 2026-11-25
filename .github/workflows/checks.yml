@@ -1,0 +1,11 @@
+name: Checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: php --version
+      - run: find public includes config bin -name '*.php' -print0 | xargs -0 -n1 php -l

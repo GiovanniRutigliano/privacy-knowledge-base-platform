@@ -14,22 +14,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+    <a class="visually-hidden-focusable skip-link" href="#main-content">Skip to content</a>
     <header class="main-header">
-        <h1>Privacy Knowledge Base</h1>
-        <nav>
+        <a class="site-title" href="/">Privacy Knowledge Base</a>
+        <nav aria-label="Main navigation">
             <ul>
                 <?php if (isset($_SESSION['role'])): ?>
                     
                     <?php if ($_SESSION['role'] === 'admin'): ?>
-                        <li><a href="/admin.php" class="nav-link <?= $current_page === 'admin.php' ? 'active' : '' ?>"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
+                        <li><a href="/admin.php" class="nav-link <?= $current_page === 'admin.php' ? 'active' : '' ?>"><i class="fas fa-user-shield"></i> Manage patterns</a></li>
                     
                     <?php elseif ($_SESSION['role'] === 'security manager'): ?>
                         <li><a href="/search.php" class="nav-link <?= $current_page === 'search.php' ? 'active' : '' ?>"><i class="fas fa-search"></i> Search</a></li>
                         <li><a href="/advanced-search.php" class="nav-link <?= $current_page === 'advanced-search.php' ? 'active' : '' ?>"><i class="fas fa-sliders-h"></i> Advanced</a></li>
-                        <li><a href="/security_manager.php" class="nav-link <?= $current_page === 'security_manager.php' ? 'active' : '' ?>"><i class="fas fa-shield-alt"></i> SM Dashboard</a></li>
+                        <li><a href="/security_manager.php" class="nav-link <?= $current_page === 'security_manager.php' ? 'active' : '' ?>"><i class="fas fa-shield-alt"></i> Security review</a></li>
                     <?php endif; ?>
 
-                    <li><a href="/login.php?action=logout" class="nav-link btn-danger text-white"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    <li><form action="/login.php" method="post" class="m-0">
+                        <input type="hidden" name="action" value="logout">
+                        <input type="hidden" name="csrf_token" value="<?= \App\Includes\get_csrf_token() ?>">
+                        <button class="btn btn-sm btn-outline-light" type="submit">Sign out</button>
+                    </form></li>
 
                 <?php else: ?>
                     <li><a href="/index.php" class="nav-link <?= $current_page === 'index.php' ? 'active' : '' ?>"><i class="fas fa-home"></i> Home</a></li>
@@ -42,4 +47,4 @@ $current_page = basename($_SERVER['PHP_SELF']);
             </ul>
         </nav>
     </header>
-    <main class="container my-4">
+    <main id="main-content" tabindex="-1" class="container my-4">
